@@ -1,0 +1,20 @@
+{
+	"format": 1,
+	"id": "dev.sapphire.read-all",
+	"name": "Read All",
+	"description": "just long press the Messages icon",
+	"icon": "ChatCheckIcon",
+	"author": "sapphire <757982547861962752>",
+	"version": "1.0.0",
+	"dependencies": {
+		"valenced.api": {
+			"version": ">=1 <2"
+		},
+		"discord": {
+			"version": "*"
+		}
+	},
+	"dist": {
+		"script": "index.js"
+	}
+}
