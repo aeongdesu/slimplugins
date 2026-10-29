@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "name": "useless plugins again",
+  "description": "for personal usage i think",
+  "plugins": {
+    "dev.sapphire.read-all": {
+      "name": "Read All",
+      "description": "just long press the Messages icon",
+      "author": "sapphire <757982547861962752>",
+      "icon": "ChatCheckIcon",
+      "channels": {
+        "latest": "1.0.0"
+      },
+      "versions": {
+        "1.0.0": {
+          "url": "https://aeongdesu.github.io/slimplugins/pool/dev.sapphire.read-all@1.0.0.zip",
+          "sha256": "fbacd81e253051751a146712b57719fab1e1fd7473b98333fc4a7cfd0874be0b",
+          "size": 1078,
+          "dependencies": {
+            "valenced.api": {
+              "version": ">=1 <2"
+            },
+            "discord": {
+              "version": "*"
+            }
+          }
+        }
+      }
+    }
+  }
+}
