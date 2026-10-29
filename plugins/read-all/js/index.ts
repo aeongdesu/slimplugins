@@ -1,14 +1,10 @@
 import { ToastActionCreators } from "@valenced/discord/actions"
-import { Stores } from "@valenced/discord/flux"
-import { getModules, lookupModule } from "@valenced/modules/finders"
-import {
-	withDependencies,
-	withName,
-	withProps
-} from "@valenced/modules/finders/filters"
-import { beforeJSX } from "@valenced/react/jsx-runtime"
+import { Stores, withStoreName } from "@valenced/discord/flux"
+import { lookupModule } from "@valenced/modules/finders"
+import { withDependencies, withName } from "@valenced/modules/finders/filters"
+import { before } from "@valenced/patcher"
+import { ReactJSXRuntime } from "@valenced/react"
 import { lookupGeneratedIconComponent } from "@valenced/utils/discord"
-import type { ComponentType, ReactElement } from "react"
 
 // thanks datamine wumpus
 type MarkGuildsAsRead = (
@@ -27,21 +23,25 @@ interface GuildReadStateStore {
 }
 
 export default plugin({
-	init({ cleanup }) {
-		let DMsRow: ComponentType | undefined
+	init({ cleanup, plugin: self }) {
+		if (self.startedLate) self.requireReload()
 		let markGuildsAsRead: MarkGuildsAsRead | undefined
 
 		// pain but okay
 		const getMarkGuildsAsRead = () => {
 			if (markGuildsAsRead) return markGuildsAsRead
 
-			const [, ackModuleId] = lookupModule(withProps("bulkAck"))
-			if (ackModuleId === undefined) return
+			const anchorIds = [
+				"ChannelStore",
+				"GuildChannelStore",
+				"ReadStateStore"
+			].map(name => lookupModule(withStoreName(name))[1])
+			if (anchorIds.includes(undefined)) return
 
 			const { atLeast, unordered } = withDependencies
 			const [exports, id] = lookupModule(
 				withName<MarkGuildsAsRead>("markGuildsAsRead").and(
-					withDependencies(atLeast(2, unordered([ackModuleId])))
+					withDependencies(atLeast(3, unordered(anchorIds as number[])))
 				)
 			)
 			if (id !== undefined) markGuildsAsRead = exports
@@ -73,39 +73,33 @@ export default plugin({
 			})
 		}
 
-		const isMessagesButton = (props: { expandedChildren?: unknown }) =>
-			DMsRow !== undefined &&
-			(props.expandedChildren as ReactElement | null | undefined)?.type ===
-				DMsRow
+		const nameOf = (type: unknown) =>
+			typeof type === "function" ? type.name : undefined
+
+		const patchJSX = (args: [type: any, props: any, key?: any]) => {
+			const [type, props, key] = args
+			if (
+				nameOf(type) !== "GuildsBarAnimatedItemWrapper" ||
+				nameOf(props?.expandedChildren?.type) !== "HomeDrawerDMsRowWrapper"
+			)
+				return args
+
+			return [
+				type,
+				{
+					...props,
+					config: { ...props.config, onLongPress: onMessagesLongPress }
+				},
+				key
+			] as typeof args
+		}
 
 		cleanup(
-			getModules(
-				withName<ComponentType>("HomeDrawerDMsRowWrapper"),
-				exports => {
-					DMsRow = exports
-				}
-			),
-			getModules(
-				withName<ComponentType<any>>("GuildsBarAnimatedItemWrapper"),
-				GuildsBarItem => {
-					cleanup(
-						beforeJSX(GuildsBarItem, ([type, props, key]) => {
-							if (!isMessagesButton(props)) return [type, props, key]
-							return [
-								type,
-								{
-									...props,
-									config: {
-										...props.config,
-										onLongPress: onMessagesLongPress
-									}
-								},
-								key
-							]
-						})
-					)
-				}
-			)
+			before(ReactJSXRuntime, "jsx", patchJSX),
+			before(ReactJSXRuntime, "jsxs", patchJSX)
 		)
+	},
+	stop({ plugin }) {
+		plugin.requireReload()
 	}
 })

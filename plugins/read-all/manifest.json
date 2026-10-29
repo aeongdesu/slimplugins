@@ -5,7 +5,7 @@
 	"description": "just long press the Messages icon",
 	"icon": "ChatCheckIcon",
 	"author": "sapphire <757982547861962752>",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"dependencies": {
 		"valenced.api": {
 			"version": ">=1 <2"
