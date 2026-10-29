@@ -9,7 +9,7 @@
       "author": "sapphire <757982547861962752>",
       "icon": "ChatCheckIcon",
       "channels": {
-        "latest": "1.0.1"
+        "latest": "1.0.2"
       },
       "versions": {
         "1.0.0": {
@@ -29,6 +29,19 @@
           "url": "https://aeongdesu.github.io/slimplugins/pool/dev.sapphire.read-all@1.0.1.zip",
           "sha256": "5785171d66986c23caa6d910c393e4fb02e9d00f9a80a4268f86d2b7e235c638",
           "size": 1079,
+          "dependencies": {
+            "valenced.api": {
+              "version": ">=1 <2"
+            },
+            "discord": {
+              "version": "*"
+            }
+          }
+        },
+        "1.0.2": {
+          "url": "https://aeongdesu.github.io/slimplugins/pool/dev.sapphire.read-all@1.0.2.zip",
+          "sha256": "4748219ed60ad039b4e35d992ca3e0b7883bc79dae812a65b217ee2ce18f46a7",
+          "size": 1167,
           "dependencies": {
             "valenced.api": {
               "version": ">=1 <2"
