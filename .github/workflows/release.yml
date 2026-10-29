@@ -45,24 +45,24 @@ jobs:
 
 
       - name: Check out the published pool
-        run: .github/scripts/checkout-pool.sh
+        run: bash .github/scripts/checkout-pool.sh
 
       - name: Plan releases
         id: plan
-        run: .github/scripts/plan-releases.sh
+        run: bash .github/scripts/plan-releases.sh
 
       - name: Build plugins
         if: steps.plan.outputs.count != '0'
-        run: ./gradlew --no-daemon packageAllPlugins
+        run: sh gradlew --no-daemon packageAllPlugins
         env:
           GITHUB_TOKEN: ${{ secrets.READ_PACKAGES_TOKEN }} # For Gradle to download the API dependency.
 
       - name: Publish to the pool
         if: steps.plan.outputs.count != '0'
-        run: .github/scripts/publish-pool.sh
+        run: bash .github/scripts/publish-pool.sh
 
       - name: Tag and write changelogs
         if: steps.plan.outputs.count != '0'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: .github/scripts/tag-releases.sh
+        run: bash .github/scripts/tag-releases.sh
