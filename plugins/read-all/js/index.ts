@@ -27,9 +27,7 @@ interface GuildReadStateStore {
 }
 
 export default plugin({
-	start({ cleanup }) {
-		const ChatCheckIcon = lookupGeneratedIconComponent("ChatCheckIcon")
-
+	init({ cleanup }) {
 		let DMsRow: ComponentType | undefined
 		let markGuildsAsRead: MarkGuildsAsRead | undefined
 
@@ -69,7 +67,8 @@ export default plugin({
 			markAsRead(unreadGuildIds, undefined, () => {
 				ToastActionCreators.open("read-all-done", {
 					text: `Read ${unreadGuildIds.length} servers!`,
-					icon: ChatCheckIcon
+					// why: its in init patch, this icon might dont exist when loads
+					icon: lookupGeneratedIconComponent("ChatCheckIcon")
 				})
 			})
 		}
