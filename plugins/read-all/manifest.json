@@ -1,11 +1,11 @@
 {
 	"format": 1,
 	"id": "dev.sapphire.read-all",
-	"name": "Read All",
+	"name": "Read All Servers",
 	"description": "just long press the Messages icon",
 	"icon": "ChatCheckIcon",
 	"author": "sapphire <757982547861962752>",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"dependencies": {
 		"valenced.api": {
 			"version": ">=1 <2"
