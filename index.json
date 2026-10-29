@@ -1,7 +1,7 @@
 {
   "format": 1,
-  "name": "useless plugins again",
-  "description": "for personal usage i think",
+  "name": "slimplugins",
+  "description": "but why",
   "plugins": {
     "dev.sapphire.read-all": {
       "name": "Read All",
