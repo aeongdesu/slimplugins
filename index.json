@@ -4,18 +4,31 @@
   "description": "but why",
   "plugins": {
     "dev.sapphire.read-all": {
-      "name": "Read All",
+      "name": "Read All Servers",
       "description": "just long press the Messages icon",
       "author": "sapphire <757982547861962752>",
       "icon": "ChatCheckIcon",
       "channels": {
-        "latest": "1.0.0"
+        "latest": "1.0.1"
       },
       "versions": {
         "1.0.0": {
           "url": "https://aeongdesu.github.io/slimplugins/pool/dev.sapphire.read-all@1.0.0.zip",
           "sha256": "fbacd81e253051751a146712b57719fab1e1fd7473b98333fc4a7cfd0874be0b",
           "size": 1078,
+          "dependencies": {
+            "valenced.api": {
+              "version": ">=1 <2"
+            },
+            "discord": {
+              "version": "*"
+            }
+          }
+        },
+        "1.0.1": {
+          "url": "https://aeongdesu.github.io/slimplugins/pool/dev.sapphire.read-all@1.0.1.zip",
+          "sha256": "5785171d66986c23caa6d910c393e4fb02e9d00f9a80a4268f86d2b7e235c638",
+          "size": 1079,
           "dependencies": {
             "valenced.api": {
               "version": ">=1 <2"
